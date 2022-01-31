@@ -51,9 +51,9 @@
     LOG(.info, "handleDeepLink: \(url)")
 
     switch url.scheme {
-      // Process url scheme.
-      case "geo", "ge0", "om":
-        if (DeepLinkParser.showMap(for: url)) {
+      // Process old Maps.Me url schemes.
+      case "geo", "ge0":
+        if DeepLinkParser.showMap(for: url) {
           MapsAppDelegate.theApp().showMap()
           return true
         }
@@ -61,10 +61,16 @@
       case "file":
         DeepLinkParser.addBookmarksFile(url)
         return true  // We don't really know if async parsing was successful.
-      // API scheme.
-      case "mapswithme", "mapsme", "mwm":
+      // API scheme. Note that "om" is used not only for API, but also as a replacement to ge0 scheme.
+      case "mapswithme", "mapsme", "mwm", "om":
         let dlData = DeepLinkParser.parseAndSetApiURL(url)
-        guard dlData.success else { return false }
+        guard dlData.success else {
+          if DeepLinkParser.showMap(for: url) {
+            MapsAppDelegate.theApp().showMap()
+            return true
+          }
+          return false
+        }
 
         switch dlData.urlType {
 
@@ -76,7 +82,7 @@
             }
 
           case .map:
-            if (DeepLinkParser.showMap(for: url)) {
+            if DeepLinkParser.showMap(for: url) {
               MapsAppDelegate.theApp().showMap()
               return true
             }

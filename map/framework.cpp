@@ -1760,6 +1760,7 @@ bool Framework::ShowMapForURL(string const & url)
   enum ResultT { FAILED, NEED_CLICK, NO_NEED_CLICK };
   ResultT result = FAILED;
 
+  // om api also supports ge0 scheme. Try to parse it here first.
   if (strings::StartsWith(url, "om") || strings::StartsWith(url, "ge0"))
   {
     ge0::Ge0Parser parser;
@@ -1773,7 +1774,7 @@ bool Framework::ShowMapForURL(string const & url)
       result = NEED_CLICK;
     }
   }
-  else if (m_parsedMapApi.IsValid())
+  if (m_parsedMapApi.IsValid())
   {
     if (!m_parsedMapApi.GetViewportParams(point, scale))
     {
