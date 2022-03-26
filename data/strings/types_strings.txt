@@ -5,7 +5,7 @@
     de = Seilbahn
     el = Τελεφερίκ
     fr = Transport par câble aérien
-    ja = 索道
+    ja = 索道j
     pl = Transport linowy
     pt = Transporte aéreo
     pt-BR = Transporte aéreo
@@ -6246,7 +6246,6 @@
     zh-Hant = 果汁
     zh = 蔬果汁
     
-
   [type.cuisine.kebab]
     en = Kebab
     ar = كباب
